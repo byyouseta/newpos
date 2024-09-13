@@ -20,7 +20,8 @@ class PelangganController extends Controller
         session()->forget('cucu');
         set_time_limit(0);
 
-        $data = Pelanggan::orderBy('created_at', 'DESC')
+        $data = Pelanggan::where('status', TRUE)
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return view('master.pelanggan', compact('data'));
@@ -98,7 +99,8 @@ class PelangganController extends Controller
     public function delete($id)
     {
         $data = Pelanggan::find($id);
-        $data->delete();
+        $data->status = FALSE;
+        $data->save();
 
         Session::flash('sukses', 'Data pelanggan berhasil dihapus.');
 

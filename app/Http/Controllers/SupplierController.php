@@ -20,7 +20,8 @@ class SupplierController extends Controller
         session()->forget('cucu');
         set_time_limit(0);
 
-        $data = Supplier::orderBy('created_at', 'DESC')
+        $data = Supplier::where('status', TRUE)
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return view('master.supplier', compact('data'));
@@ -105,7 +106,8 @@ class SupplierController extends Controller
     public function delete($id)
     {
         $data = Supplier::find($id);
-        $data->delete();
+        $data->status = FALSE;
+        $data->save();
 
         Session::flash('sukses', 'Data supplier berhasil dihapus.');
 

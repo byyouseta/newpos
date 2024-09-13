@@ -7,7 +7,9 @@ use App\Models\DetailPembelian;
 use App\Models\Pembelian;
 use App\Models\Setting;
 use App\Models\Supplier;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
 class PembelianController extends Controller
@@ -40,10 +42,14 @@ class PembelianController extends Controller
         // if ($request->supplier) {
         $new = new Pembelian();
         $new->supplier_id = $request->supplier;
+        $new->user_id = Auth::user()->id;
+        $new->tanggal = Carbon::now();
         $new->total_item = 0;
         $new->total_harga = 0;
         $new->diskon = 0;
+        $new->ppn = 0;
         $new->bayar = 0;
+        $new->pembayaran = 1;
         $new->save();
 
         $transaksiId = $new->id;

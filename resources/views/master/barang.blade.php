@@ -60,6 +60,7 @@
                                 <th class="text-right">Harga Beli</th>
                                 <th class="text-right">Harga Jual</th>
                                 <th class="text-right">Stok</th>
+                                <th class="text-right">Min Stok</th>
                                 <th class="text-right">Update Terakhir</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
@@ -74,6 +75,7 @@
                                     <td class="text-right">{{ $listBarang->harga_beli }}</td>
                                     <td class="text-right">{{ $listBarang->harga_jual }}</td>
                                     <td class="text-right">{{ $listBarang->stok }}</td>
+                                    <td class="text-right">{{ $listBarang->min_stok }}</td>
                                     <td class="text-right">{{ $listBarang->updated_at }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('master_barang_edit', $listBarang->id) }}"
@@ -167,6 +169,15 @@
                                     <label>Stok</label>
                                     <input type="number" class="form-control" placeholder="Stok" name="stok">
                                     @error('stok')
+                                        <small id="passwordHelpBlock"
+                                            class="form-text text-muted text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Minimal Stok</label>
+                                    <input type="number" class="form-control" placeholder="Minimal Stok"
+                                        name="min_stok">
+                                    @error('min_stok')
                                         <small id="passwordHelpBlock"
                                             class="form-text text-muted text-danger">{{ $message }}</small>
                                     @enderror

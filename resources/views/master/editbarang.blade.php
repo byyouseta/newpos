@@ -78,8 +78,17 @@
                             <div class="form-group">
                                 <label>Stok</label>
                                 <input type="number" class="form-control" placeholder="Stok" name="stok"
-                                    value="{{ $data->stok }}">
+                                    value="{{ $data->stok }}" readonly>
                                 @error('stok')
+                                    <small id="passwordHelpBlock"
+                                        class="form-text text-muted text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Minimal Stok</label>
+                                <input type="number" class="form-control" placeholder="Minimal Stok" name="min_stok"
+                                    value="{{ $data->min_stok }}">
+                                @error('min_stok')
                                     <small id="passwordHelpBlock"
                                         class="form-text text-muted text-danger">{{ $message }}</small>
                                 @enderror

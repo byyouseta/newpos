@@ -20,7 +20,8 @@ class BarangController extends Controller
         session()->forget('cucu');
         set_time_limit(0);
 
-        $data = Barang::orderBy('created_at', 'DESC')
+        $data = Barang::where('status', TRUE)
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return view('master.barang', compact('data'));
@@ -44,7 +45,8 @@ class BarangController extends Controller
             'nama_barang' => 'required|regex:/^[\pL\s\-\d]+$/u',
             'harga_beli' => 'required|numeric',
             'harga_jual' => 'required|numeric',
-            'stok' => 'required|numeric'
+            'stok' => 'required|numeric',
+            'min_stok' => 'required|numeric'
         ], [
             'kode_barang.required' => 'Kode Barang tidak boleh kosong.',
             'kode_barang.unique' => 'Kode Barang sudah digunakan.',
@@ -56,6 +58,7 @@ class BarangController extends Controller
             'harga_beli.numeric' => 'Harga Beli harus dalam format angka.',
             'harga_jual.numeric' => 'Harga Jual harus dalam format angka.',
             'stok.numeric' => 'Stok harus dalam format angka.',
+            'min_stok.numeric' => 'Stok harus dalam format angka.',
         ]);
 
         $simpan = new Barang();
@@ -66,6 +69,7 @@ class BarangController extends Controller
         $simpan->harga_beli = $request->harga_beli;
         $simpan->harga_jual = $request->harga_jual;
         $simpan->stok = $request->stok;
+        $simpan->min_stok = $request->min_stok;
         $simpan->save();
 
         Session::flash('sukses', 'Data barang berhasil disimpan.');
@@ -80,7 +84,7 @@ class BarangController extends Controller
             'nama_barang' => 'required|regex:/^[\pL\s\-\d]+$/u',
             'harga_beli' => 'required|numeric',
             'harga_jual' => 'required|numeric',
-            'stok' => 'required|numeric'
+            'min_stok' => 'required|numeric'
         ], [
             'kode_barang.required' => 'Kode Barang tidak boleh kosong',
             'kode_barang.unique' => 'Kode Barang sudah digunakan',
@@ -101,7 +105,7 @@ class BarangController extends Controller
         $simpan->merk = $request->merk;
         $simpan->harga_beli = $request->harga_beli;
         $simpan->harga_jual = $request->harga_jual;
-        $simpan->stok = $request->stok;
+        $simpan->min_stok = $request->min_stok;
         $simpan->save();
 
         Session::flash('sukses', 'Data barang berhasil diperbaharui.');
@@ -112,7 +116,8 @@ class BarangController extends Controller
     public function delete($id)
     {
         $data = Barang::find($id);
-        $data->delete();
+        $data->status = 0;
+        $data->save();
 
         Session::flash('sukses', 'Data barang berhasil dihapus.');
 
